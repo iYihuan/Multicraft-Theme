@@ -1,0 +1,68 @@
+2015/10/27 13:29:18 [info] [application] [User 1, 127.0.0.1] Successful login: admin, forwarding to: /index.php?r=server/index&my=1
+2015/10/27 13:32:59 [info] [application] [User 1, 127.0.0.1] Panel setting "language" changed to "zh"
+2015/10/27 13:32:59 [info] [application] [User 1, 127.0.0.1] Updating panel configuration
+2015/10/27 14:11:52 [info] [application] [User 1, 127.0.0.1] Sending command "updatejar list :" to all daemons
+2015/11/05 07:53:32 [info] [application] [User 1, 127.0.0.1] Successful login: admin, forwarding to: /index.php?r=server/index&my=1
+2015/11/05 07:55:26 [info] [application] [User 1, 127.0.0.1] Panel setting "theme" changed to "new1"
+2015/11/05 07:55:26 [info] [application] [User 1, 127.0.0.1] Updating panel configuration
+2015/11/05 12:19:29 [info] [application] [User 1, 192.168.12.1] Successful login: admin, forwarding to: /index.php?r=server/index&my=1
+2015/11/05 16:35:55 [error] [php] [User , 192.168.12.1] preg_match() expects parameter 2 to be string, array given (C:\Multicraft\multicraft\panel\protected\yii\web\actions\CViewAction.php:102)
+Stack trace:
+#0 C:\Multicraft\multicraft\panel\protected\yii\web\actions\CAction.php(75): CViewAction->run()
+#1 C:\Multicraft\multicraft\panel\protected\yii\web\CController.php(309): CViewAction->runWithParams()
+#2 C:\Multicraft\multicraft\panel\protected\yii\web\CController.php(287): SiteController->runAction()
+#3 C:\Multicraft\multicraft\panel\protected\yii\web\CController.php(266): SiteController->runActionWithFilters()
+#4 C:\Multicraft\multicraft\panel\protected\yii\web\CWebApplication.php(283): SiteController->run()
+#5 C:\Multicraft\multicraft\panel\protected\yii\web\CWebApplication.php(142): CWebApplication->runController()
+#6 C:\Multicraft\multicraft\panel\protected\yii\base\CApplication.php(162): CWebApplication->processRequest()
+#7 C:\Multicraft\multicraft\panel\index.php(23): CWebApplication->run()
+REQUEST_URI=//index.php?r=site/page&view[]=about
+2015/11/05 16:35:55 [error] [php] [User , 192.168.12.1] preg_match() expects parameter 2 to be string, array given (C:\Multicraft\multicraft\panel\protected\yii\web\actions\CViewAction.php:102)
+Stack trace:
+#0 C:\Multicraft\multicraft\panel\protected\yii\web\actions\CAction.php(75): CViewAction->run()
+#1 C:\Multicraft\multicraft\panel\protected\yii\web\CController.php(309): CViewAction->runWithParams()
+#2 C:\Multicraft\multicraft\panel\protected\yii\web\CController.php(287): SiteController->runAction()
+#3 C:\Multicraft\multicraft\panel\protected\yii\web\CController.php(266): SiteController->runActionWithFilters()
+#4 C:\Multicraft\multicraft\panel\protected\yii\web\CWebApplication.php(283): SiteController->run()
+#5 C:\Multicraft\multicraft\panel\protected\yii\web\CWebApplication.php(142): CWebApplication->runController()
+#6 C:\Multicraft\multicraft\panel\protected\yii\base\CApplication.php(162): CWebApplication->processRequest()
+#7 C:\Multicraft\multicraft\panel\index.php(23): CWebApplication->run()
+REQUEST_URI=//index.php?r=site/page&view[]=about
+2015/11/05 18:00:09 [error] [php] [User , 192.168.12.1] preg_match() expects parameter 2 to be string, array given (C:\Multicraft\multicraft\panel\protected\yii\web\actions\CViewAction.php:102)
+Stack trace:
+#0 C:\Multicraft\multicraft\panel\protected\yii\web\actions\CAction.php(75): CViewAction->run()
+#1 C:\Multicraft\multicraft\panel\protected\yii\web\CController.php(309): CViewAction->runWithParams()
+#2 C:\Multicraft\multicraft\panel\protected\yii\web\CController.php(287): SiteController->runAction()
+#3 C:\Multicraft\multicraft\panel\protected\yii\web\CController.php(266): SiteController->runActionWithFilters()
+#4 C:\Multicraft\multicraft\panel\protected\yii\web\CWebApplication.php(283): SiteController->run()
+#5 C:\Multicraft\multicraft\panel\protected\yii\web\CWebApplication.php(142): CWebApplication->runController()
+#6 C:\Multicraft\multicraft\panel\protected\yii\base\CApplication.php(162): CWebApplication->processRequest()
+#7 C:\Multicraft\multicraft\panel\index.php(23): CWebApplication->run()
+REQUEST_URI=//index.php?r=site/page&view[]=about
+2015/11/05 18:02:14 [error] [php] [User , 192.168.12.1] preg_match() expects parameter 2 to be string, array given (C:\Multicraft\multicraft\panel\protected\yii\web\actions\CViewAction.php:102)
+Stack trace:
+#0 C:\Multicraft\multicraft\panel\protected\yii\web\actions\CAction.php(75): CViewAction->run()
+#1 C:\Multicraft\multicraft\panel\protected\yii\web\CController.php(309): CViewAction->runWithParams()
+#2 C:\Multicraft\multicraft\panel\protected\yii\web\CController.php(287): SiteController->runAction()
+#3 C:\Multicraft\multicraft\panel\protected\yii\web\CController.php(266): SiteController->runActionWithFilters()
+#4 C:\Multicraft\multicraft\panel\protected\yii\web\CWebApplication.php(283): SiteController->run()
+#5 C:\Multicraft\multicraft\panel\protected\yii\web\CWebApplication.php(142): CWebApplication->runController()
+#6 C:\Multicraft\multicraft\panel\protected\yii\base\CApplication.php(162): CWebApplication->processRequest()
+#7 C:\Multicraft\multicraft\panel\index.php(23): CWebApplication->run()
+REQUEST_URI=/index.php?r=site/page&view[]=about
+2015/11/05 23:49:21 [info] [application] [User 1, 127.0.0.1] Panel setting "theme" changed to ""
+2015/11/05 23:49:21 [info] [application] [User 1, 127.0.0.1] Updating panel configuration
+2015/11/05 23:55:38 [info] [application] [User 1, 127.0.0.1] Panel setting "theme" changed to "new1"
+2015/11/05 23:55:38 [info] [application] [User 1, 127.0.0.1] Updating panel configuration
+2015/11/08 10:53:33 [info] [application] [User 1, 127.0.0.1] Successful login: admin, forwarding to: /index.php?r=server/index&my=1
+2015/11/08 11:02:32 [info] [application] [User 1, 127.0.0.1] Successful login: admin, forwarding to: /index.php?r=server/index&my=1
+2015/11/08 11:03:34 [info] [application] [User 1, 127.0.0.1] Successful login: admin, forwarding to: /index.php?r=server/index&my=1
+2015/11/08 11:05:53 [info] [application] [User 1, 192.168.12.1] Successful login: admin, forwarding to: /index.php?r=server/index&my=1
+2015/11/08 11:06:48 [info] [application] [User 1, 192.168.12.1] Successful login: admin, forwarding to: /index.php?r=server/index&my=1
+2015/11/08 11:06:56 [info] [application] [User 1, 192.168.12.1] Successful login: admin, forwarding to: /index.php?r=server/index&my=1
+2015/11/08 11:08:14 [info] [application] [User 1, 192.168.12.1] Successful login: admin, forwarding to: /index.php?r=server/index&my=1
+2015/11/08 11:20:50 [info] [application] [User 1, 192.168.12.1] Successful login: admin, forwarding to: /index.php?r=server/index&my=1
+2015/11/08 13:35:08 [info] [application] [User 1, 127.0.0.1] Successful login: admin, forwarding to: /index.php?r=server/index&my=1
+2015/11/08 13:35:52 [info] [application] [User 1, 127.0.0.1] Sending command "updatejar list :" to all daemons
+2015/11/08 14:13:52 [info] [application] [User 1, 127.0.0.1] Successful login: admin, forwarding to: /index.php?r=server/index&my=1
+2015/11/08 14:13:54 [info] [application] [User 1, 127.0.0.1] Sending command "updatejar list :" to all daemons

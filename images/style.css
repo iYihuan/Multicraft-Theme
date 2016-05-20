@@ -1,0 +1,330 @@
+html{
+    min-height:100%;/* make sure it is at least as tall as the viewport */
+    position:relative
+}
+@font-face {
+font-family: 'Quicksand Book Regular';
+font-style: normal;
+font-weight: normal;
+src: local('../fonts/Quicksand Book Regular'), url('../fonts/Quicksand_Book.woff') format('woff');
+}
+
+
+@font-face {
+font-family: 'Quicksand Dash Regular';
+font-style: normal;
+font-weight: normal;
+src: local('../fonts/Quicksand Dash Regular'), url('../fonts/Quicksand_Dash.woff') format('woff');
+}
+
+
+@font-face {
+font-family: 'Quicksand Light Regular';
+font-style: normal;
+font-weight: normal;
+src: local('../fonts/Quicksand Light Regular'), url('../fonts/Quicksand_Light.woff') format('woff');
+}
+
+
+@font-face {
+font-family: 'Quicksand Bold Oblique Regular';
+font-style: normal;
+font-weight: normal;
+src: local('../fonts/Quicksand Bold Oblique Regular'), url('../fonts/Quicksand_Bold_Oblique.woff') format('woff');
+}
+
+
+@font-face {
+font-family: 'Quicksand Bold Regular';
+font-style: normal;
+font-weight: normal;
+src: local('../fonts/Quicksand Bold Regular'), url('../fonts/Quicksand_Bold.woff') format('woff');
+}
+
+
+@font-face {
+font-family: 'Quicksand Book Oblique Regular';
+font-style: normal;
+font-weight: normal;
+src: local('../fonts/Quicksand Book Oblique Regular'), url('../fonts/Quicksand_Book_Oblique.woff') format('woff');
+}
+
+
+@font-face {
+font-family: 'Quicksand Light Oblique Regular';
+font-style: normal;
+font-weight: normal;
+src: local('../fonts/Quicksand Light Oblique Regular'), url('../fonts/Quicksand_Light_Oblique.woff') format('woff');
+}
+#left_panel
+{
+width:300px;
+background-color:#222326;
+border-radius: 5px;
+float:left;
+overflow:auto;
+height: auto;
+min-height: 100% !important;
+display: table; 
+border-top-right-radius:0px;
+}
+#right_panel
+{
+min-width:645px;
+min-height:449px;
+background-color:#f2f1f1;
+display: block; 
+overflow:auto;
+}
+#header_panel
+{
+background-color:transparent;
+background-image:url('../images/minecraft_repainted_by_griffsnuff-d79wp4u.png');
+background-size: 100% auto;
+background-position:50% 64%;
+width:100%;
+height:65px;
+border-radius: 5px;   
+border-bottom-right-radius:0px;
+border-top-left-radius:0px;
+border-bottom-left-radius:0px;
+} 
+.domain
+{
+font-family: 'Quicksand Book Regular';
+font-size:18px;
+color:#dfe0e6;
+text-transform: uppercase;
+margin-left:40px;
+padding-top:23px;
+letter-spacing:4px;
+}
+#side_menu
+{
+background-color:#121314;
+border-radius: 5px;
+width:70px;
+float:left;
+display:block;
+overflow:auto;
+height: auto;
+min-height: 100% !important;
+}    
+.gravatar
+{
+margin-left:10px;
+margin-top:12px;
+margin-bottom:15px;
+} 
+.sidemenu_active
+{
+color:#e7e5e5;
+font-size:30px;
+}
+.sidemenu_active:hover
+{
+color:#e7e5e5;
+font-size:30px;
+} 
+.sidemenu
+{
+color:#626262;
+font-size:30px;
+} 
+.sidemenu:hover
+{
+color:#e7e5e5;
+font-size:30px;
+} 
+#domain_list
+{
+float:left;
+overflow: hidden;
+color:#f8f8f8;
+width:230px;
+} 
+.your_domains
+{
+font-family: 'Quicksand Book Regular';
+font-size:18px;
+color:#f8f8f8;
+text-transform: uppercase;
+padding-top:23px;
+letter-spacing:4px;
+margin-left:20px;
+margin-bottom:20px;
+}      
+#domain_list input[type="search"] 
+{
+margin-left:17px;
+height:30px;
+width:193px;
+text-transform: uppercase;
+background-color:#232323;
+border:0px;
+color:#626262;
+}
+.listactive
+{
+font-family: 'Quicksand Light Regular';
+font-size:14px;
+color:#f8f8f8;
+background-color:#232323;
+width:193px;
+max-width:193px;
+padding-top:5px;
+padding-bottom:6px;
+padding-left:8px;
+} 
+.listactive a
+{
+color:#f8f8f8;
+} 
+.listactive a:hover
+{
+color:#f8f8f8;
+text-decoration:none;
+} 
+.listunactive a
+{
+color:#f8f8f8;
+} 
+.listunactive a:hover
+{
+color:#f8f8f8;
+text-decoration:none;
+}   
+.listunactive
+{
+font-family: 'Quicksand Light Regular';
+font-size:14px;
+color:#f8f8f8;
+width:193px;
+max-width:193px;
+padding-top:5px;
+padding-bottom:6px;
+padding-left:8px;
+}      
+#usage_panel
+{
+background-color:#f2f1f1;
+padding-left:40px;
+margin-top:45px;
+margin-right:40px;
+margin-bottom:45px;
+}  
+.disk_usage
+{
+font-family: 'Quicksand Book Regular';
+font-size:14px;
+letter-spacing:4px;
+margin-left:40px;
+padding-top:45px;
+float:left;
+}
+.price
+{
+float:right;
+width:200px;
+text-align:center;
+margin-top:25px;
+} 
+.priceam
+{
+font-family: 'Quicksand Light Regular';
+font-size:36px;
+letter-spacing:4px;
+}     
+.expdate
+{
+font-family: 'Quicksand Light Regular';
+font-size:13px;
+letter-spacing:3px;
+}     
+#settings
+{
+margin-left:300px;
+margin-top:30px;
+}  
+.menuitems
+{
+font-family: 'Quicksand Book Regular';
+margin-left:25px;
+text-transform: uppercase;
+font-size:18px;
+letter-spacing:4px;
+}
+.menuitems:hover
+{
+font-family: 'Quicksand Book Regular';
+margin-left:25px;
+text-decoration:none;
+text-transform: uppercase;  
+font-size:18px;
+letter-spacing:4px;
+}
+.panel-body
+{
+font-family: 'Quicksand Book Regular';
+font-size: 14px;
+letter-spacing: 4px;
+margin-left:25px;
+}
+.h2
+{
+font-family: 'Quicksand Book Regular';
+}
+#sidemenu
+{
+list-style-type:none;
+margin-left:0px !important;
+-webkit-padding-start:0px;
+color: #e7e5e5;
+font-size: 30px;
+}
+#sidemenu a
+{
+color: #626262;
+font-size: 30px;
+}
+#sidemenu a:hover
+{
+color: #e7e5e5;
+font-size: 30px;
+}
+#sidemenu li
+{
+margin-bottom:20px;
+}
+#server-form
+{
+}
+.copy
+{
+padding: 10px; 
+margin-bottom:0px; 
+font-size: 0.8em; 
+text-align: center; 
+background-color:#f2f1f1;
+letter-spacing: 1px;
+}
+.loginbtn {
+background-color: #232323;
+font-family: 'Quicksand Book Regular';
+font-size: 14px;
+border: 0px;
+padding-top:15px;
+}
+.loginbtn:hover{background-color:#2c2c2c;font-family:'Quicksand Book Regular';font-size:14px;border:0px;}.loginform{border-radius:0px;}
+input{
+    border-radius:0 !important;
+}
+select{
+    border-radius:0 !important;
+}
+
+
+
+
+
+

@@ -1,0 +1,259 @@
+<?php
+/**
+ *
+ *   Copyright © 2010-2014 by xhost.ch GmbH
+ *
+ *   All rights reserved.
+ *
+ **/
+
+class BgPlugin extends ActiveRecord
+{
+    // Configurable parameters
+
+    static $apiUrl = 'http://api.bukget.org/3';
+    static $pluginsRefreshTime = 10800; // three hours
+    static $categoriesRefreshTime = 11000; // offset from the plugin refresh
+
+    // End Configurable parameters
+
+
+    static $con = null;
+    private $_info = null;
+    private $_cached = false;
+    private $_versions = false;
+    private $_gameVersions = false;
+
+    public static function model($className=__CLASS__)
+    {
+        return parent::model($className);
+    }
+
+    public function getDbConnection()
+    {
+        if (!BgPlugin::$con)
+        {
+            BgPlugin::$con = new CDbConnection('sqlite:'.dirname(__FILE__).'/../runtime/bukget.sqlite');
+            BgPlugin::$con->createCommand('create table if not exists `updated`'
+                .' (`name` text primary key not null, `time` integer not null)')->execute();
+            BgPlugin::$con->createCommand('create table if not exists `category_plugin`'
+                .' (`category` text, `plugin` text, unique(`category`,`plugin`))')->execute();
+            BgPlugin::$con->createCommand('create table if not exists `category` (`name` text, unique(`name`))')->execute();
+            BgPlugin::$con->createCommand('create table if not exists `plugin`'
+                .' (`name` text primary key, `plugin_name` text, `status` text, `link` text,'
+                .' `desc` text, `categories` text, unique(`name`))')->execute();
+        }
+        return BgPlugin::$con;
+    }
+
+    public function tableName()
+    {
+        return 'plugin';
+    }
+
+    public function rules()
+    {
+        return array(
+            array('name, plugin_name, categories, authors, status, link, desc', 'safe', 'on'=>'search'),
+        );
+    }
+
+    public function attributeLabels()
+    {
+        return array(
+            'name' => Yii::t('mc', 'Name'),
+            'plugin_name' => Yii::t('mc', 'Plugin Name'),
+            'categories' => Yii::t('mc', 'Categories'),
+            'authors' => Yii::t('mc', 'Authors'),
+            'status' => Yii::t('mc', 'Status'),
+            'link' => Yii::t('mc', 'Plugin Page'),
+            'desc' => Yii::t('mc', 'Description'),
+        );
+    }
+
+    public function search($server_id = 0)
+    {
+        $criteria=new CDbCriteria;
+
+        $criteria->compare('`name`',$this->name,true);
+        $criteria->compare('`plugin_name`',$this->plugin_name,true);
+        $criteria->compare('`status`',$this->status,true);
+        $criteria->compare('`link`',$this->link,true);
+        $criteria->compare('`desc`',$this->desc,true);
+
+        if ($this->categories)
+        {
+            $cmd = $this->getDbConnection()->createCommand('select `name` from `category` where `name` like ?');
+            $cat = $cmd->queryScalar(array($this->categories));
+            if ($cat)
+            {
+                $cmd = $this->getDbConnection()->createCommand('select count(*) from `category_plugin` where `category`=? limit 1');
+                if (!$cmd->queryScalar(array($cat)))
+                {
+                    Yii::log('BukGet: Updating category '.$cat);
+                    $trans = $this->getDbConnection()->beginTransaction();
+                    $cmd = $this->getDbConnection()->createCommand('insert into `category_plugin` (`category`,`plugin`) values(?,?)');
+
+                    $ps = CJSON::decode(file_get_contents(BgPlugin::$apiUrl.'/categories/bukkit/'.
+                        CHtml::encode($cat).'?fields=slug'), false);
+                    foreach ($ps as $p)
+                    {
+                        if (!@$p->slug)
+                            continue;
+                        $cmd->execute(array($cat, $p->slug));
+                    }
+
+                    $trans->commit();
+                    Yii::log('BukGet: Done updating category');
+                }
+
+                $criteria->addCondition('`name` in (select `plugin` from `category_plugin` where `category`='
+                    .$this->getDbConnection()->quoteValue($cat).')');
+            }
+        }
+
+        if ($server_id)
+        {
+            $c = Yii::app()->bridgeDb->createCommand('select `name` from `bgplugin` where `server_id`=? and `version`!=\'\'');
+            $c->bindValue(1, $server_id);
+            $names = $c->queryColumn();
+            $criteria->addInCondition('`name`', $names);
+        }
+
+        return new CActiveDataProvider(get_class($this), array(
+            'criteria'=>$criteria,
+            'pagination'=>array('pageSize'=>20),
+        ));
+    }
+
+    private function getCache()
+    {
+        if ($this->_cached)
+            return $this->_cached;
+        return ($this->_cached = CJSON::decode(file_get_contents(BgPlugin::$apiUrl.'/plugins/bukkit/'.CHtml::encode($this->name)), false));
+    }
+
+    public function checkPlugins()
+    {
+        $count = $this->getDbConnection()->createCommand('select `name` from `plugin` limit 1');
+        $time = $this->getDbConnection()->createCommand('select `time` from `updated` where `name`=\'plugins\'');
+        if (!$count->queryScalar() || ($time->queryScalar() + BgPlugin::$pluginsRefreshTime) < time())
+        {
+            $list = CJSON::decode(file_get_contents(BgPlugin::$apiUrl.'/plugins/bukkit?fields=slug,plugin_name,stage,website,description'), false);
+
+            Yii::log('BukGet: Inserting '.count($list).' plugins');
+            $trans = $this->getDbConnection()->beginTransaction();
+            $this->getDbConnection()->createCommand('delete from `plugin`')->execute();
+            $cmd = $this->getDbConnection()->createCommand('insert into `plugin` (`name`,`plugin_name`,`status`,`link`,`desc`)'
+                .' values(?,?,?,?,?)');
+            foreach ($list as $p)
+            {
+                if (!@$p->slug)
+                    continue;
+                $cmd->execute(array($p->slug, @$p->plugin_name ? $p->plugin_name : $p->slug, @$p->stage, @$p->website, @$p->description));
+            }
+            $cmd = $this->getDbConnection()->createCommand('replace into `updated` (`name`,`time`) values(?,?)');
+            $cmd->execute(array('plugins', time()));
+            $trans->commit();
+            Yii::log('BukGet: Done inserting plugins');
+        }
+    }
+
+    public function getAllCategories()
+    {
+        $cmd = $this->getDbConnection()->createCommand('select `name` from `category`');
+        $cats = $cmd->queryColumn();
+        $time = $this->getDbConnection()->createCommand('select `time` from `updated` where `name`=\'categories\'');
+        if (!is_array($cats) || !count($cats) || ($time->queryScalar() + BgPlugin::$categoriesRefreshTime) < time())
+        {
+            $catList = CJSON::decode(file_get_contents(BgPlugin::$apiUrl.'/categories'), false);
+            $cats = array();
+
+            Yii::log('BukGet: Building category information');
+            $trans = $this->getDbConnection()->beginTransaction();
+            $this->getDbConnection()->createCommand('delete from `category`')->execute();
+            $this->getDbConnection()->createCommand('delete from `category_plugin`')->execute();
+            $cmd = $this->getDbConnection()->createCommand('insert into `category` (`name`) values(?)');
+
+            foreach ($catList as $c)
+            {
+                if (!strlen($c->name))
+                    continue;
+                $cmd->execute(array($c->name));
+                $cats[] = $c->name;
+            }
+
+            Yii::log('BukGet: Added '.count($cats).' categories');
+            $cmd = $this->getDbConnection()->createCommand('replace into `updated` (`name`,`time`) values(?,?)');
+            $cmd->execute(array('categories', time()));
+            $trans->commit();
+            Yii::log('BukGet: Done building category information');
+        }
+        return $cats;
+    }
+
+    public function getVersion()
+    {
+        $c = $this->getCache();
+        $v = @$c->versions;
+        if (is_array($v))
+            $v = @$v[0];
+        if (empty($v))
+            return '';
+        return ''.@$v->version;
+    }
+
+
+    public function getDownloadLink()
+    {
+        $c = $this->getCache();
+        $v = @$c->versions;
+        if (is_array($v))
+            $v = @$v[0];
+        if (empty($v))
+            return '';
+        return ''.@$v->download;
+    }
+
+    private function buildVersions()
+    {
+        if (!$this->_versions || !$this->_gameVersions)
+        {
+            $versions = array();
+            $gameVersions = array();
+            foreach ($this->getCache()->versions as $v)
+            {
+                $version = str_replace(':', ';', $v->dbo_version);
+                $versions[$version] = $v->download;
+                foreach ($v->game_versions as $gv)
+                {
+                    $gv = preg_replace('/cb\s*/i', '', $gv);
+                    if (!isset($gameVersions[$gv]))
+                        $gameVersions[$gv] = array();
+                    $gameVersions[$gv][] = $version;
+                }
+            }
+            $this->_versions = $versions;
+            uksort($gameVersions, 'version_compare');
+            $this->_gameVersions = array_reverse($gameVersions);
+        }
+    }
+
+    public function getVersions()
+    {
+        $this->buildVersions();
+        return $this->_versions;
+    }
+
+    public function getGameVersions()
+    {
+        $this->buildVersions();
+        return $this->_gameVersions;
+    }
+
+    public function getAuthors()
+    {
+        $c = $this->getCache();
+        return implode(@$c->authors, ', ');
+    }
+}
